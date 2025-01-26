@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F0C0C4CC2D468AC800403B4A /* FlickIMUTest Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = F0C0C4CB2D468AC800403B4A /* FlickIMUTest Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F0C0C4E82D469F4100403B4A /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = F0C0C4E72D469F3C00403B4A /* .gitignore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +38,7 @@
 /* Begin PBXFileReference section */
 		F0C0C4C52D468AC800403B4A /* FlickIMUTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickIMUTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0C0C4CB2D468AC800403B4A /* FlickIMUTest Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FlickIMUTest Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F0C0C4E72D469F3C00403B4A /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -61,6 +63,7 @@
 		F0C0C4BE2D468AC700403B4A = {
 			isa = PBXGroup;
 			children = (
+				F0C0C4E72D469F3C00403B4A /* .gitignore */,
 				F0C0C4CF2D468AC800403B4A /* FlickIMUTest Watch App */,
 				F0C0C4C62D468AC800403B4A /* Products */,
 			);
@@ -169,6 +172,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0C0C4E82D469F4100403B4A /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
