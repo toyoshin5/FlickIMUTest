@@ -12,7 +12,6 @@ class MLService {
     private var flickModel: FlickModel?
     
     init() {
-        // モデルのロード
         do {
             flickModel = try FlickModel(configuration: MLModelConfiguration())
         } catch {
@@ -50,7 +49,7 @@ class MLService {
         return nil
     }
     
-    func mlMultiArrayToDoubleArray(_ multiArray: MLMultiArray) -> [Double] {
+    private func mlMultiArrayToDoubleArray(_ multiArray: MLMultiArray) -> [Double] {
         let length = multiArray.count
         let doublePtr =  multiArray.dataPointer.bindMemory(to: Float16.self, capacity: length)
         let doubleBuffer = UnsafeBufferPointer(start: doublePtr, count: length)
