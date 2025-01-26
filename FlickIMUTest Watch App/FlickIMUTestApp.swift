@@ -15,3 +15,11 @@ struct FlickIMUTest_Watch_AppApp: App {
         }
     }
 }
+
+enum AppGesture: Int {
+    case tap = 0
+    case up = 1
+    case down = 2
+    case left = 3
+    case right = 4
+}
