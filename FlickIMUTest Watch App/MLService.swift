@@ -5,6 +5,7 @@
 //  Created by Shingo Toyoda on 2025/01/27.
 //
 import CoreML
+import CoreMotion
 
 class MLService {
     
@@ -19,7 +20,8 @@ class MLService {
         }
     }
     
-    func predict(_ input: [[Double]]) -> MLResult? {
+    func predict(_ cmInput: [CMDeviceMotion]) -> MLResult? {
+        let input = deviceMotionToDoubleArray(cmInput)
         guard let inputArray = try? MLMultiArray(shape: shape, dataType: .double) else {
             fatalError("MLMultiArrayの作成に失敗しました")
         }
@@ -35,7 +37,6 @@ class MLService {
             do {
                 let prediction:FlickModelOutput = try model.prediction(input: input)
                 let output = mlMultiArrayToDoubleArray(prediction.Identity)
-                //最大となるインデックスと値を取得
                 let maxValue = output.max() ?? 0
                 if let maxIndex = output.firstIndex(of: maxValue){
                     return MLResult(label: AppGesture(rawValue: maxIndex) ?? .tap, probability: maxValue)
@@ -49,6 +50,32 @@ class MLService {
         return nil
     }
     
+    private func deviceMotionToDoubleArray(_ motion: [CMDeviceMotion]) -> [[Double]] {
+        var input = [[Double]]()
+        for motionData in motion {
+            var data = [Double]()
+            data.append(motionData.userAcceleration.x)
+            data.append(motionData.userAcceleration.y)
+            data.append(motionData.userAcceleration.z)
+            data.append(motionData.attitude.pitch)
+            data.append(motionData.attitude.roll)
+            data.append(motionData.attitude.yaw)
+            data.append(motionData.gravity.x)
+            data.append(motionData.gravity.y)
+            data.append(motionData.gravity.z)
+            data.append(motionData.attitude.quaternion.x)
+            data.append(motionData.attitude.quaternion.y)
+            data.append(motionData.attitude.quaternion.z)
+            data.append(motionData.attitude.quaternion.w)
+            data.append(motionData.rotationRate.x)
+            data.append(motionData.rotationRate.y)
+            data.append(motionData.rotationRate.z)
+            input.append(data)
+            print("\(motionData.userAcceleration.x),\(motionData.userAcceleration.y),\(motionData.userAcceleration.z)")
+        }
+        return input
+    }
+
     private func mlMultiArrayToDoubleArray(_ multiArray: MLMultiArray) -> [Double] {
         let length = multiArray.count
         let doublePtr =  multiArray.dataPointer.bindMemory(to: Float16.self, capacity: length)
