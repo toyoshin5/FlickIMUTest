@@ -9,7 +9,7 @@ import CoreMotion
 
 class MLService {
     
-    let shape = [1, 39, 3] as [NSNumber] // 入力の形状を指定
+    let shape = [1, 39, 6] as [NSNumber] // 入力の形状を指定
     private var flickModel: FlickModel?
     
     init() {
@@ -26,7 +26,7 @@ class MLService {
             fatalError("MLMultiArrayの作成に失敗しました")
         }
         for i in 0..<39 {
-            for j in 0..<3 {
+            for j in 0..<6 {
                 let index = [0, i, j] as [NSNumber]
                 let value = input[i][j]
                 inputArray[index] = NSNumber(value: value)
@@ -57,16 +57,6 @@ class MLService {
             data.append(motionData.userAcceleration.x)
             data.append(motionData.userAcceleration.y)
             data.append(motionData.userAcceleration.z)
-            data.append(motionData.attitude.pitch)
-            data.append(motionData.attitude.roll)
-            data.append(motionData.attitude.yaw)
-            data.append(motionData.gravity.x)
-            data.append(motionData.gravity.y)
-            data.append(motionData.gravity.z)
-            data.append(motionData.attitude.quaternion.x)
-            data.append(motionData.attitude.quaternion.y)
-            data.append(motionData.attitude.quaternion.z)
-            data.append(motionData.attitude.quaternion.w)
             data.append(motionData.rotationRate.x)
             data.append(motionData.rotationRate.y)
             data.append(motionData.rotationRate.z)
