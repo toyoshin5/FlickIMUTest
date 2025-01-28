@@ -15,23 +15,50 @@ struct ContentView: View {
     let motionManager = CMMotionManager()
     let MAX_MOTION_LIST:Int = 40
     let PRED_DELAY:Int = 20
+    
     @State var motionData: [CMDeviceMotion] = []
-    @State var isCollecting = false
-    @State var log = ""
+    @State var result: MLResult?
+    @GestureState var isPressing = false
     
     var body: some View {
-        VStack {
-            Button(action: {
-                pred()
-            }) {
-                Text("Predict")
+        Button(action: pred){
+            ZStack{
+                Group{
+                    if let result = result {
+                        switch result.label {
+                        case .tap:
+                            Image(systemName: "dot.circle")
+                        case .up:
+                            Image(systemName: "arrow.up")
+                        case .down:
+                            Image(systemName: "arrow.down")
+                        case .left:
+                            Image(systemName: "arrow.left")
+                        case .right:
+                            Image(systemName: "arrow.right")
+                        }
+                    }else{
+                        Image(systemName: "dot.circle")
+                    }
+                }
+                .font(.system(size: 80, weight: .bold))
+                VStack {
+                    Spacer()
+                    if let result = result {
+                        Text("\(result.probability)")
+                            .foregroundColor(.white)
+                    }
+                }
             }
-            Text(log)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.black)
         }
+        .buttonStyle(PlainButtonStyle())
+        .background(Color.black)
         .onAppear() {
             startMotionUpdates()
         }
-        .padding()
+
     }
 
     func pred(){
@@ -39,7 +66,7 @@ struct ContentView: View {
             try? await Task.sleep(nanoseconds: UInt64(10_000_000 * PRED_DELAY)) // 20ms
             if self.motionData.count >= 39 {
                 if let output = self.ml.predict(Array(self.motionData.suffix(39))){
-                    self.log = "\(output)"
+                    self.result = output
                     print(output)
                 }
             } else {
