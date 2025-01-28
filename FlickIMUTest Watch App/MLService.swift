@@ -61,7 +61,6 @@ class MLService {
             data.append(motionData.rotationRate.y)
             data.append(motionData.rotationRate.z)
             input.append(data)
-            print("\(motionData.userAcceleration.x),\(motionData.userAcceleration.y),\(motionData.userAcceleration.z)")
         }
         return input
     }

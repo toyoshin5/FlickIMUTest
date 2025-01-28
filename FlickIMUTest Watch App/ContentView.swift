@@ -23,25 +23,9 @@ struct ContentView: View {
     var body: some View {
         Button(action: pred){
             ZStack{
-                Group{
-                    if let result = result {
-                        switch result.label {
-                        case .tap:
-                            Image(systemName: "dot.circle")
-                        case .up:
-                            Image(systemName: "arrow.up")
-                        case .down:
-                            Image(systemName: "arrow.down")
-                        case .left:
-                            Image(systemName: "arrow.left")
-                        case .right:
-                            Image(systemName: "arrow.right")
-                        }
-                    }else{
-                        Image(systemName: "dot.circle")
-                    }
+                if let result {
+                    AppArrow(gesture: result.label)
                 }
-                .font(.system(size: 80, weight: .bold))
                 VStack {
                     Spacer()
                     if let result = result {
@@ -68,6 +52,7 @@ struct ContentView: View {
                 if let output = self.ml.predict(Array(self.motionData.suffix(39))){
                     self.result = output
                     print(output)
+                    WKInterfaceDevice.current().play(.click)
                 }
             } else {
                 print("Not enough data collected yet")
@@ -93,6 +78,27 @@ struct ContentView: View {
                 self.motionData.removeFirst()
             }
         }
+    }
+}
+
+struct AppArrow: View {
+    let gesture: AppGesture
+    var body: some View {
+        Group{
+            switch gesture {
+            case .tap:
+                Image(systemName: "dot.circle")
+            case .up:
+                Image(systemName: "arrow.up")
+            case .down:
+                Image(systemName: "arrow.down")
+            case .left:
+                Image(systemName: "arrow.left")
+            case .right:
+                Image(systemName: "arrow.right")
+            }
+        }
+        .font(.system(size: 80, weight: .bold))
     }
 }
 
